@@ -2,14 +2,22 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { createIssueSchema } from "@/app/validationIssueSchemas";
+import { issueSchema } from "@/app/validationIssueSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import {
+	Box,
+	Button,
+	Callout,
+	DropdownMenu,
+	Flex,
+	Select,
+	TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,17 +26,24 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 	ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
-const IssueForm = ({ issue }: { issue?: Issue }) => {
+const IssueForm = ({
+	issue,
+	buttonState,
+}: {
+	issue?: Issue;
+	buttonState: string;
+}) => {
 	const router = useRouter();
+	const currentPath = usePathname();
 	const {
 		register,
 		control,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<IssueFormData>({
-		resolver: zodResolver(createIssueSchema),
+		resolver: zodResolver(issueSchema),
 	});
 	const [error, setError] = useState("");
 	const [isSubmitting, setSubmitting] = useState(false);
@@ -69,9 +84,28 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 					)}
 				/>
 				<ErrorMessage>{errors.description?.message}</ErrorMessage>
-				<Button disabled={isSubmitting}>
-					Submit New Issue {isSubmitting && <Spinner />}
-				</Button>
+				<Flex gap='4' align='center'>
+					{currentPath !== "/issues/new" && (
+						<Controller
+							name='status'
+							control={control}
+							defaultValue={issue?.status}
+							render={({ field }) => (
+								<Select.Root size='2' {...field} onValueChange={field.onChange}>
+									<Select.Trigger />
+									<Select.Content>
+										<Select.Item value='OPEN'>Open</Select.Item>
+										<Select.Item value='IN_PROGRESS'>In Progress</Select.Item>
+										<Select.Item value='CLOSED'>Closed</Select.Item>
+									</Select.Content>
+								</Select.Root>
+							)}
+						/>
+					)}
+					<Button disabled={isSubmitting}>
+						{buttonState} Issue {isSubmitting && <Spinner />}
+					</Button>
+				</Flex>
 			</form>
 		</div>
 	);

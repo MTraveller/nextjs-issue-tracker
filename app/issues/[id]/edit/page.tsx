@@ -9,7 +9,7 @@ const EditIssuePage = async ({ params }: { params: { id: string } }) => {
 
 	if (!issue) return notFound();
 
-	return <IssueForm issue={issue} />;
+	return <IssueForm issue={issue} buttonState='Update' />;
 };
 
 export default EditIssuePage;
