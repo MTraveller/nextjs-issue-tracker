@@ -35,7 +35,7 @@ export default function RootLayout({
 								<Container>{children}</Container>
 							</main>
 							<footer>
-								<Flex direction='row' gap='3' justify='center' mt='9'>
+								<Flex direction='row' gap='3' justify='center' mt='9' mb='4'>
 									<Link href='/privacy' className='text-sm'>
 										privacy
 									</Link>
