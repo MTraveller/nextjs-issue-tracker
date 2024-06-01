@@ -1,4 +1,4 @@
-import { Container, Theme } from "@radix-ui/themes";
+import { Container, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -7,6 +7,7 @@ import "./globals.css";
 import NavBar from "./NavBar";
 import "./theme-config.css";
 import QueryClientProvider from "@/QueryClientProvider";
+import Link from "next/link";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -33,6 +34,16 @@ export default function RootLayout({
 							<main className='p-5'>
 								<Container>{children}</Container>
 							</main>
+							<footer>
+								<Flex direction='row' gap='3' justify='center' mt='9'>
+									<Link href='/privacy' className='text-sm'>
+										privacy
+									</Link>
+									<Link href='/terms' className='text-sm'>
+										terms
+									</Link>
+								</Flex>
+							</footer>
 						</Theme>
 					</AuthProvider>
 				</body>
