@@ -1,14 +1,19 @@
+import authOptions from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import AssigneeSelect from "./AssigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
-import { getServerSession } from "next-auth";
-import authOptions from "@/app/auth/authOptions";
-import AssigneeSelect from "./AssigneeSelect";
+import { NextRequest } from "next/server";
 
-const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
+interface Props {
+	params: { id: string };
+}
+
+const IssueDetailPage = async ({ params }: Props) => {
 	const session = await getServerSession(authOptions);
 
 	if (!parseInt(params.id)) notFound();
@@ -36,5 +41,27 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
 		</Grid>
 	);
 };
+
+export async function generateMetadata({ params }: Props) {
+	const issue = await prisma.issue.findUnique({
+		where: { id: parseInt(params.id) },
+	});
+
+	const title = issue?.title;
+	const description = issue?.description.substring(0, 155) + "...";
+
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+		},
+		twitter: {
+			title,
+			description,
+		},
+	};
+}
 
 export default IssueDetailPage;
