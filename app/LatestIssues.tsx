@@ -16,7 +16,7 @@ const LatestIssues = async () => {
 			<Heading size='4' mb='5'>
 				Latest Issues
 			</Heading>
-			<Table.Root>
+			<Table.Root variant='surface'>
 				<Table.Body>
 					{issues.map((issue) => (
 						<Table.Row key={issue.id}>
