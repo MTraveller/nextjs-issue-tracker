@@ -76,7 +76,7 @@ const page = () => {
 			<Text as='p' mb='5'>
 				We use the information we collect in the following ways:
 			</Text>
-			<Box pl='4'>
+			<Box pl='4' mb='5'>
 				<ul>
 					{useOfInformation.map((bullet, num) => (
 						<li key={num} className='list-disc mb-3'>
@@ -85,7 +85,7 @@ const page = () => {
 					))}
 				</ul>
 			</Box>
-			<Heading as='h2' size='4' mt='5' mb='3'>
+			<Heading as='h2' size='4' mb='3'>
 				3. Disclosure of Your Information
 			</Heading>
 			<Text as='p' mb='5'>
@@ -137,7 +137,7 @@ const page = () => {
 				Depending on your location, you may have the following rights regarding
 				your personal data:
 			</Text>
-			<Box pl='4'>
+			<Box pl='4' mb='5'>
 				<ul>
 					{dataProtectionRights.map((bullet, num) => (
 						<li key={num} className='list-disc mb-3'>
@@ -146,7 +146,7 @@ const page = () => {
 					))}
 				</ul>
 			</Box>
-			<Text as='p' mt='5' mb='5'>
+			<Text as='p' mb='5'>
 				If you make a request, we have one month to respond to you. If you would
 				like to exercise any of these rights, please contact us at our provided
 				contact information.
